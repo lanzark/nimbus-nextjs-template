@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "enabledMcpjsonServers": ["nimbus"],
+  "permissions": {
+    "allow": [
+      "mcp__nimbus__nimbus_me",
+      "mcp__nimbus__list_apps",
+      "mcp__nimbus__get_app",
+      "mcp__nimbus__list_deployments",
+      "mcp__nimbus__list_env_vars",
+      "mcp__nimbus__get_git_token",
+      "Bash(npm run build)",
+      "Bash(npm run lint)",
+      "Bash(npm run dev)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}

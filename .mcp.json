@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "nimbus": {
+      "type": "http",
+      "url": "${NIMBUS_MCP_URL:-https://mcp.nimbus.com/mcp}"
+    }
+  }
+}
