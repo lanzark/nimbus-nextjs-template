@@ -13,12 +13,7 @@
   },
   "permissions": {
     "allow": [
-      "mcp__plugin_nimbus_nimbus__nimbus_me",
-      "mcp__plugin_nimbus_nimbus__list_apps",
-      "mcp__plugin_nimbus_nimbus__get_app",
-      "mcp__plugin_nimbus_nimbus__list_deployments",
-      "mcp__plugin_nimbus_nimbus__list_env_vars",
-      "mcp__plugin_nimbus_nimbus__get_git_token",
+      "mcp__plugin_nimbus_nimbus__.*",
       "Bash(npm run build)",
       "Bash(npm run lint)",
       "Bash(npm run dev)",

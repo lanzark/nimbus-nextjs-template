@@ -1,79 +1,8 @@
-# .nimbus.yml — how Nimbus builds, configures and ships this app.
-#
-# One file, read by the Nimbus Orchestrator on every deploy (MCP `deploy_app`
-# or the Deploy button in the dashboard). Committing it is what makes a deploy
-# reproducible: the same repo at the same commit always builds the same way.
-#
-# Anything omitted falls back to the default shown in the comment above it, so
-# a minimal file is just `version: 1`.
-
+# How Nimbus builds this app.
 version: 1
 
-app:
-  # Display name in the Nimbus dashboard. The app's real identity is its GitHub
-  # repository — this is a label, and renaming it never re-provisions anything.
-  name: nimbus-nextjs-template
-
 build:
-  # How the image is produced. One of:
-  #
-  #   auto        (default) — a Dockerfile at `dockerfile` wins if it exists;
-  #                           otherwise Railpack detects the Next.js app and
-  #                           builds it. This is what the template ships with:
-  #                           there is no Dockerfile, so it is a Railpack build.
-  #   railpack               — always Railpack. A Dockerfile in the repo is
-  #                           ignored rather than silently taking over.
-  #   dockerfile             — always the Dockerfile at `dockerfile`. If it is
-  #                           missing the deploy fails instead of quietly
-  #                           falling back to Railpack and shipping a different
-  #                           image than you asked for.
-  #
-  # To switch this template to Docker: `mv Dockerfile.example Dockerfile` and
-  # set `strategy: dockerfile`.
+  # auto       — use a Dockerfile if this repo has one, otherwise detect the app
+  # dockerfile — always build the Dockerfile
+  # railpack   — always detect, ignore any Dockerfile
   strategy: auto
-
-  # Build context, relative to the repository root. Also the root directory for
-  # a Railpack build — set it to `apps/web` and the rest of a monorepo is
-  # ignored. Default: `.`
-  context: .
-
-  # Path to the Dockerfile, relative to `context`. Only consulted when the
-  # strategy resolves to dockerfile. Default: `Dockerfile`
-  dockerfile: Dockerfile
-
-  # Railpack only — override its detected commands. `null` keeps Railpack's own
-  # detection, which for this template is `npm ci` then `npm run build`.
-  installCommand: null
-  buildCommand: null
-
-runtime:
-  # What runs the built app. `null` uses the image's own entrypoint (a
-  # Dockerfile's CMD) or Railpack's detected start command.
-  # `next start` binds to $PORT on its own — do not hardcode a port here.
-  startCommand: npm run start
-
-  # The port the app listens on. Nimbus injects it as $PORT and routes the
-  # public URL to it. Default: 3000
-  port: 3000
-
-  # Polled after a build until it answers 200, before the deploy is marked
-  # live. Set to `null` to skip and mark live as soon as the container starts.
-  healthcheckPath: /api/health
-
-deploy:
-  # The only environment this MVP ships to (ADR 0010). `prod` and the
-  # request/approve gate land later.
-  environment: dev
-
-  # Which environment variables this app needs. Keys only — values live
-  # encrypted in Nimbus and are never readable back, so they must never appear
-  # in this file. Set them with the MCP `set_env_vars` tool or the app detail
-  # page; they reach the container on the next deploy.
-  #
-  # `required` is a pre-flight check: a deploy that would start the app without
-  # one of these fails early with the missing key named, rather than booting a
-  # broken container.
-  env:
-    required: []
-    optional:
-      - NEXT_PUBLIC_APP_URL

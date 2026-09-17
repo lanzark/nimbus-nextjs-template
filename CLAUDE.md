@@ -20,10 +20,9 @@ go stale the moment the platform changes.
 
 Two facts about this repository that the server cannot know:
 
-- **`.nimbus.yml`** at the root is this app's deploy contract — build strategy,
-  runtime, healthcheck, required config keys. Every field is commented. Read it
-  before changing anything about the build, and edit it rather than working around
-  it.
+- **`.nimbus.yml`** at the root decides how this app is built. Keep it minimal:
+  `build.strategy: auto` is right unless the app genuinely needs a Dockerfile, in
+  which case rename `Dockerfile.example` and set `strategy: dockerfile`.
 - **Never commit a secret.** `.env*` is gitignored and `.claude/settings.json`
   denies reading it. Configuration belongs in Nimbus, where values are stored
   encrypted and are never readable back.
@@ -43,7 +42,7 @@ This is a real product surface, not a scaffold — leave it looking deliberate.
 - This template uses **npm**, not pnpm. Keep `package-lock.json` committed and in
   sync; both build strategies install from it.
 - The app must listen on `$PORT`. `next start` reads it — never hardcode a port.
-- `/api/health` backs `runtime.healthcheckPath` in `.nimbus.yml`. If you delete the
-  route, clear that field too, or every deploy will wait for a 200 that never comes.
+- `/api/health` is a plain liveness endpoint. Keep it cheap and dependency-free — it
+  has to answer on a container that has only just booted.
 
 @AGENTS.md
