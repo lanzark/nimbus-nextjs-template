@@ -70,16 +70,30 @@ early with the key named rather than booting a broken container.
 
 ## Agent setup
 
+The Nimbus MCP connection comes from the **`nimbus` plugin** in the
+[`lanzark/nimbus-plugin`](https://github.com/lanzark/nimbus-plugin) marketplace, not
+from anything in this repo. `.claude/settings.json` registers that marketplace and
+enables the plugin, so Claude Code installs it on its own once you trust the folder.
+By hand:
+
+```shell
+/plugin marketplace add lanzark/nimbus-plugin
+/plugin install nimbus@lanzark
+/mcp          # sign in to plugin:nimbus:nimbus over OAuth
+```
+
+Keeping the endpoint in the plugin means a new environment or a moved host is one
+change there, not a pull request against every app built from this template.
+
 | Path | Purpose |
 |---|---|
-| [`.mcp.json`](.mcp.json) | Project-scoped Nimbus MCP server. `NIMBUS_MCP_URL` overrides the host for staging or self-hosted installs. |
-| [`.claude/settings.json`](.claude/settings.json) | Enables that server and pre-approves its read-only tools; denies reading `.env*`. |
+| [`.claude/settings.json`](.claude/settings.json) | Registers the `lanzark` marketplace, enables the `nimbus` plugin, pre-approves its read-only tools; denies reading `.env*`. |
 | [`.claude/skills/nimbus/SKILL.md`](.claude/skills/nimbus/SKILL.md) | Loads whenever a task touches deploys, config or the build. |
 | [`.claude/commands/`](.claude/commands) | `/deploy` and `/nimbus-status`. |
 | [`CLAUDE.md`](CLAUDE.md) | Repo-wide rules: MCP-only platform access, no committed secrets, code quality. |
 
-Authentication is per user through WorkOS when the MCP server connects — there is no
-token to add to this repository, and none should ever be added.
+Authentication is per user through WorkOS AuthKit when the plugin's MCP server
+connects — there is no token to add to this repository, and none should ever be added.
 
 ## Learn more
 

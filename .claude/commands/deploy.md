@@ -1,7 +1,7 @@
 ---
 description: Build, push and ship this app to Nimbus, then watch the deployment until it is live
 argument-hint: "[optional note about what changed]"
-allowed-tools: mcp__nimbus__nimbus_me, mcp__nimbus__list_apps, mcp__nimbus__get_app, mcp__nimbus__get_git_token, mcp__nimbus__deploy_app, mcp__nimbus__list_deployments, mcp__nimbus__list_env_vars, Bash, Read, Glob, Grep
+allowed-tools: mcp__plugin_nimbus_nimbus__nimbus_me, mcp__plugin_nimbus_nimbus__list_apps, mcp__plugin_nimbus_nimbus__get_app, mcp__plugin_nimbus_nimbus__get_git_token, mcp__plugin_nimbus_nimbus__deploy_app, mcp__plugin_nimbus_nimbus__list_deployments, mcp__plugin_nimbus_nimbus__list_env_vars, Bash, Read, Glob, Grep
 ---
 
 Ship this repository to Nimbus. $ARGUMENTS

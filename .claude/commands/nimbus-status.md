@@ -1,6 +1,6 @@
 ---
 description: Show this app's Nimbus state — identity, registration, config keys and recent deployments
-allowed-tools: mcp__nimbus__nimbus_me, mcp__nimbus__list_apps, mcp__nimbus__get_app, mcp__nimbus__list_env_vars, mcp__nimbus__list_deployments, Bash, Read
+allowed-tools: mcp__plugin_nimbus_nimbus__nimbus_me, mcp__plugin_nimbus_nimbus__list_apps, mcp__plugin_nimbus_nimbus__get_app, mcp__plugin_nimbus_nimbus__list_env_vars, mcp__plugin_nimbus_nimbus__list_deployments, Bash, Read
 ---
 
 Report where this repository stands on Nimbus. Read only — change nothing.

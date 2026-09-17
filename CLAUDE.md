@@ -5,10 +5,15 @@ not by Vercel, not by `railway up`, not by a GitHub Action in this repo.
 
 **Everything that touches the platform goes through the Nimbus MCP server.** It
 carries the caller's identity, which is how Nimbus knows the organization and the
-app a request belongs to; nothing else can express that. The server is defined for
-this project in `.mcp.json` and enabled in `.claude/settings.json`, so it connects
-on its own — if it is not connected, stop and tell the user rather than reaching
-for `gh`, a personal access token, or another deploy tool.
+app a request belongs to; nothing else can express that. The connection comes from
+the **`nimbus` plugin** ([`lanzark/nimbus-plugin`](https://github.com/lanzark/nimbus-plugin)),
+which `.claude/settings.json` registers and enables, so it is there once the folder
+is trusted. If it is not, stop and tell the user to run `/plugin install
+nimbus@lanzark` and `/mcp` — never reach for `gh`, a personal access token, or
+another deploy tool instead.
+
+Its tools are namespaced `mcp__plugin_nimbus_nimbus__<tool>`; this file names them
+bare for readability.
 
 | Task | Tool |
 |---|---|

@@ -21,10 +21,11 @@ tell which organization and which app a request belongs to.
 | Set config | `set_env_vars`, `delete_env_var` | committing values |
 | Ship | `deploy_app` → poll `list_deployments` | `vercel`, `railway`, `docker push` |
 
-If the `nimbus` MCP server is not connected, **stop and say so** rather than falling
-back to another deploy path. The user connects it from the Nimbus dashboard; the
-project-scoped definition is in `.mcp.json` at the repo root, and `NIMBUS_MCP_URL`
-overrides the default host for self-hosted or staging installs.
+The tools are named `mcp__plugin_nimbus_nimbus__<tool>` — they come from the
+**`nimbus` plugin**, which `.claude/settings.json` registers and enables from the
+`lanzark` marketplace. If they are not available, **stop and say so** rather than
+falling back to another deploy path. The fix is `/plugin install nimbus@lanzark`
+followed by `/mcp` to sign in over OAuth, not a token in this repo.
 
 Two rules that never bend:
 
