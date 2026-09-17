@@ -1,0 +1,8 @@
+# How Nimbus builds this app.
+version: 1
+
+build:
+  # auto       — use a Dockerfile if this repo has one, otherwise detect the app
+  # dockerfile — always build the Dockerfile
+  # railpack   — always detect, ignore any Dockerfile
+  strategy: auto

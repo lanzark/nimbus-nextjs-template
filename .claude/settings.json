@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "extraKnownMarketplaces": {
+    "lanzark": {
+      "source": {
+        "source": "github",
+        "repo": "lanzark/nimbus-plugin"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "nimbus@lanzark": true
+  },
+  "permissions": {
+    "allow": [
+      "mcp__plugin_nimbus_nimbus__.*",
+      "Bash(npm run build)",
+      "Bash(npm run lint)",
+      "Bash(npm run dev)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}
