@@ -45,4 +45,16 @@ This is a real product surface, not a scaffold — leave it looking deliberate.
 - `/api/health` is a plain liveness endpoint. Keep it cheap and dependency-free — it
   has to answer on a container that has only just booted.
 
+## Branding / favicon
+
+When applying organization branding from `get_company_branding` /
+`nimbus://design-guide`:
+
+- If `favicon_url` is set, download it to `src/app/icon.png` (or `icon.svg` /
+  `icon.ico` matching the file type).
+- **Never** leave or recreate `src/app/favicon.ico` from the old Vercel /
+  create-next-app default — the App Router always injects that file and it will
+  override `icon.*` in the browser tab.
+- If `favicon_url` is empty, keep this template's neutral `src/app/icon.svg`.
+
 @AGENTS.md
