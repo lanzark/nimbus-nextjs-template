@@ -1,69 +1,90 @@
-import Image from "next/image";
+import Link from "next/link";
+import { SemaforoDot } from "@/components/SemaforoDot";
+import { listEntendimientos } from "@/lib/entendimiento";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  let items: Awaited<ReturnType<typeof listEntendimientos>> = [];
+  let error: string | null = null;
+  try {
+    items = await listEntendimientos();
+  } catch (e) {
+    error = e instanceof Error ? e.message : "No se pudo cargar la lista.";
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
+    <div className="space-y-8">
+      <section className="space-y-3">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--ink)] sm:text-4xl">
+          Entendimientos
+        </h1>
+        <p className="max-w-2xl text-[15px] leading-relaxed text-[var(--muted)]">
+          Se arman en Claude con el conector de esta app. Cuando terminás, el
+          expediente aparece acá para verlo y compartir el enlace con gente de
+          Lucha.
+        </p>
+      </section>
+
+      {error ? (
+        <p className="rounded-xl border border-[var(--sem-y)]/40 bg-[var(--surface)] px-4 py-3 text-sm text-[var(--body)]">
+          {error}
+        </p>
+      ) : null}
+
+      {!error && items.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-[var(--line)] bg-[var(--surface)] px-6 py-12 text-center">
+          <p className="font-[family-name:var(--font-display)] text-lg font-medium text-[var(--ink)]">
+            Todavía no hay expedientes
+          </p>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-[var(--muted)]">
+            Armalo en Claude y aparece acá. Conectá{" "}
+            <code className="rounded bg-black/5 px-1.5 py-0.5 text-[0.85em] dark:bg-white/10">
+              /api/mcp
             </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+            y usá el prompt{" "}
+            <code className="rounded bg-black/5 px-1.5 py-0.5 text-[0.85em] dark:bg-white/10">
+              armar-entendimiento
+            </code>
+            .
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      ) : null}
+
+      {items.length > 0 ? (
+        <ul className="divide-y divide-[var(--line)] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)]">
+          {items.map((item) => (
+            <li key={item.id}>
+              <Link
+                href={`/e/${item.id}`}
+                className="flex items-center justify-between gap-4 px-5 py-4 transition hover:bg-black/[0.03] dark:hover:bg-white/[0.03]"
+              >
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <SemaforoDot value={item.semaforo_general} />
+                    <span className="truncate font-medium text-[var(--ink)]">
+                      {item.empresa}
+                    </span>
+                  </div>
+                  <p className="mt-1 truncate text-sm text-[var(--muted)]">
+                    {[item.vertical, item.fecha].filter(Boolean).join(" · ") ||
+                      "Sin fecha"}
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  {item.total != null ? (
+                    <div className="font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--ink)]">
+                      {item.total.toFixed(2)}
+                    </div>
+                  ) : (
+                    <div className="text-sm text-[var(--muted)]">—</div>
+                  )}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }

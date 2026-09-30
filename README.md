@@ -1,22 +1,25 @@
-# Your Nimbus app
+# Entendimiento Luchante
 
-A web app built with [Next.js](https://nextjs.org) and ready to deploy on Nimbus.
+App de Lucha para armar y compartir expedientes de Entendimiento.
 
-## Run it on your machine
+## Cómo se usa
+
+1. Conectá Claude a `/api/mcp` de esta app.
+2. Usá el prompt `armar-entendimiento` (o importá un HTML de plantilla con `importar_html`).
+3. Al terminar, el expediente aparece en la lista. Abrilo y copiá el enlace.
+4. Quien recibe el enlace (gente de Lucha) ve el documento y las instrucciones para conectar el mismo conector y usar `revisar-entendimiento`.
+
+No hay chat en la página. La conversación vive en Claude.
+
+## En esta máquina (local)
 
 ```bash
-npm install
+sudo pg_ctlcluster 18 main start
+cd /home/ubuntu/entendimiento-luchante
 npm run dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000).
+Abrí http://localhost:3000  
+MCP: http://localhost:3000/api/mcp  
 
-## Deploy it
-
-Press **Deploy** on the app's page in Nimbus, or ask your AI assistant to deploy it.
-Settings and secrets go in Nimbus too — never in this repository.
-
-## Where things are
-
-- `src/app/page.tsx` — the home page
-- `.nimbus.yml` — how the app is built. Leave it alone unless you need Docker.
+`DATABASE_URL` está en `.env.local` (no se sube a git).

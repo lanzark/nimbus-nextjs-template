@@ -57,4 +57,11 @@ When applying organization branding from `get_company_branding` /
   override `icon.*` in the browser tab.
 - If `favicon_url` is empty, keep this template's neutral `src/app/icon.svg`.
 
+## Local development
+
+Local Postgres 18 — method: apt (PGDG), port: 5432, database: entendimiento-luchante
+DATABASE_URL is in `.env.local` (not committed).
+To resume: `sudo pg_ctlcluster 18 main start` then `npm run dev` from this folder.
+User: `el_dev` (password only in `.env.local`).
+
 @AGENTS.md
